@@ -33,8 +33,9 @@ class Todo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    
     def __str__(self):
-        return self.body[:55]
+        return self.body
     
     def duration_range(self):
         if self.duration_type == "minute":
@@ -64,3 +65,5 @@ class Todo(models.Model):
                 days_in_thisyear = 366
                 
             return self.created_at + timedelta (days=days_in_thisyear)
+        
+        

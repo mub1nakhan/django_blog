@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Todo App</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins', sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .container{
+            background:#fff;
+            width:420px;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            color:#333;
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+        }
+
+        input, select, button{
+            padding:10px;
+            border-radius:6px;
+            border:1px solid #ccc;
+            font-size:14px;
+        }
+
+        input:focus, select:focus{
+            outline:none;
+            border-color:#667eea;
+        }
+
+        button{
+            background:#667eea;
+            color:#fff;
+            border:none;
+            cursor:pointer;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#5a67d8;
+        }
+
+        .todo-list{
+            margin-top:25px;
+        }
+
+        .todo-item{
+            background:#f4f6ff;
+            padding:12px;
+            border-radius:6px;
+            margin-bottom:10px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .todo-item span{
+            font-size:14px;
+            color:#333;
+        }
+
+        .badge{
+            padding:4px 8px;
+            border-radius:4px;
+            font-size:12px;
+            color:white;
+        }
+
+        .common{
+            background:#38a169;
+        }
+
+        .urgent{
+            background:#e53e3e;
+        }
+
+        .low{
+            background:#3182ce;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📝 My Todo List</h1>
+
+    <!-- FORM -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="body" placeholder="Todo title..." required>
+
+        <input type="number" name="duration" placeholder="Duration">
+
+        <select name="duration_type">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+        </select>
+
+        <select name="status">
+            <option value="common">Common</option>
+            <option value="urgent">Urgent</option>
+            <option value="low">Low</option>
+        </select>
+
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <!-- TODO LIST -->
+    <div class="todo-list">
+
+        {% for item in todo %}
+        <div class="todo-item">
+
+            <span>
+                {{ item.body }} <br>
+                <small>{{ item.duration }} {{ item.duration_type }}</small>
+            </span>
+
+            <span class="badge {{ item.status }}">
+                {{ item.status }}
+            </span>
+
+        </div>
+        {% empty %}
+            <p style="text-align:center;color:#666;">No todos yet 😴</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
