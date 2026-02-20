@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Mahsulotlar Do'koni</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .title {
+            text-align: center;
+            color: white;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .category {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .discount {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .stock {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: -40px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+        }
+
+        .empty {
+            text-align: center;
+            color: white;
+            font-size: 22px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="title">
+        🛍️ Mahsulotlar Do'koni
+    </div>
+
+    <div class="grid">
+
+        {% for product in products %}
+
+        <div class="card">
+
+            {% if product.discount > 0 %}
+            <div class="badge">
+                -{{ product.discount }}%
+            </div>
+            {% endif %}
+
+            <div class="category">
+                {{ product.category.name }}
+            </div>
+
+            <div class="name">
+                {{ product.name }}
+            </div>
+
+            <div class="description">
+                {{ product.description|truncatewords:12 }}
+            </div>
+
+            <div>
+                <span class="price">
+                    ${{ product.price }}
+                </span>
+
+                {% if product.discount > 0 %}
+                <span class="discount">
+                    chegirma mavjud
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="stock">
+                📦 Omborda: {{ product.stock }}
+            </div>
+
+            <div class="footer">
+                Qo'shilgan: {{ product.created_at|date:"Y-m-d H:i" }}
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty">
+            Hozircha mahsulot yo'q
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
